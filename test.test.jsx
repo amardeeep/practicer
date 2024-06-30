@@ -1,19 +1,24 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen } from "@testing-library/react";
 
-import App from './src/App';
-import { describe, it, expect } from 'vitest';
+import App from "./src/App";
+import { describe, it, expect } from "vitest";
+import userEvent from "@testing-library/user-event";
 
-describe('something truthy and falsy', () => {
-  it('true to be true', () => {
-    expect(true).toBe(true);
+describe("App Component", () => {
+  it("It renders Banana", () => {
+    const { container } = render(<App />);
+    expect(container).toMatchSnapshot();
   });
-
-  it('false to be false', () => {
-    expect(false).toBe(false);
+  it("it renders Mango after button click", async () => {
+    const user = userEvent.setup();
+    render(<App />);
+    const button = screen.getByRole("button");
+    await user.click(button);
+    expect(screen.getByRole("heading").textContent).toMatch(/mango/i);
   });
 });
 
-describe('App', () => {
+/*describe('App', () => {
   it('renders headline', () => {
     render(<App title="React" />);
 
@@ -21,4 +26,4 @@ describe('App', () => {
 
     // check if App components renders headline
   });
-});
+});*/
